@@ -12,6 +12,8 @@ export const ROUTES = {
   STUDENT: {
     LEARNING: (slug: string = ':slug') => `/learning/${slug}`,
     PROFILE: '/profile',
+    MY_COURSES: '/my-courses',
+    MY_POSTS: '/my-posts',
     LIKED_BLOGS: '/liked-blogs'
   },
 

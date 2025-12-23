@@ -71,10 +71,10 @@ const BlogManagementPage = () => {
           <h2 className='text-2xl font-bold tracking-tight'>Quản lý bài viết</h2>
           <p className='text-muted-foreground'>Quản lý tất cả bài viết trên hệ thống</p>
         </div>
-        <Button onClick={() => navigate(ROUTES.ADMIN.BLOGS.CREATE)} className='flex items-center gap-2'>
+        {/* <Button onClick={() => navigate(ROUTES.ADMIN.BLOGS.CREATE)} className='flex items-center gap-2'>
           <PlusIcon className='h-4 w-4' />
           Tạo bài viết
-        </Button>
+        </Button> */}
       </div>
 
       {/* Filters */}

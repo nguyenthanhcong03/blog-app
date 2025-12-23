@@ -24,6 +24,7 @@ import MainLayout from '@/components/layouts/MainLayout'
 import CreateBlogPage from '@/pages/admin/BlogManagement/pages/CreateBlogPage'
 import EditBlogPage from '@/pages/admin/BlogManagement/pages/EditBlogPage'
 import ViewBlogPage from '@/pages/admin/BlogManagement/pages/ViewBlogPage'
+import MyPostsPage from '@/pages/student/MyPostsPage/MyPostsPage'
 
 const publicRoutes: RouteObject[] = [
   { index: true, element: <HomePage /> },
@@ -38,7 +39,8 @@ const studentRoutes: RouteObject[] = [
   { path: 'learning/:slug', element: <LearningPage /> },
   { path: 'profile', element: <ProfilePage /> },
   { path: 'liked-blogs', element: <LikedBlogsPage /> },
-  { path: 'my-courses', element: <MyCoursesPage /> }
+  { path: 'my-courses', element: <MyCoursesPage /> },
+  { path: 'my-posts', element: <MyPostsPage /> }
 ]
 
 // Admin
@@ -94,9 +96,9 @@ const routes: RouteObject[] = [
   {
     path: '',
     element: (
-      <ProtectedRoute roles={['student', 'admin']}>
-        <MainLayout />
-      </ProtectedRoute>
+      // <ProtectedRoute roles={['student', 'admin']}>
+      <MainLayout />
+      // </ProtectedRoute>
     ),
     children: studentRoutes
   },

@@ -32,6 +32,7 @@ builder.Services.AddScoped<TokenService>();
 
 // Repo
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
 
 builder.Services.AddControllers()

@@ -1,6 +1,7 @@
 ﻿using BlogApp.Application.DTO.Request;
 using BlogApp.Application.DTO.Response;
 using BlogApp.Application.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogApp.Api.Controllers;
@@ -35,6 +36,19 @@ public class AuthController : ControllerBase
             Status = 200,
             Message = "Register successful",
             Data = _authService.Login(login)
+        };
+        
+        return Ok(response);
+    }
+    
+    [HttpPost("logout")]
+    [Authorize]
+    public ActionResult<ApiResponse<object>> Register([FromBody]LogoutRequestDto logout) {
+        _authService.Logout(logout);
+        var response = new ApiResponse<object>
+        {
+            Status = 200,
+            Message = "Register successful",
         };
         
         return Ok(response);

@@ -14,15 +14,17 @@ namespace BlogApp.Application.Service;
 public class AuthService : IAuthService
 {
     private readonly IUserRepository _userRepository;
+    public readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly IMapper _map;
     private readonly TokenService _tokenService;
     private readonly PasswordHasher<User> _passwordHasher = new PasswordHasher<User>();
     
-    public AuthService(IUserRepository userRepository,  IMapper map,  TokenService tokenService)
+    public AuthService(IUserRepository userRepository,  IMapper map,  TokenService tokenService, IRefreshTokenRepository refreshTokenRepository)
     {
+        _userRepository = userRepository;
         _tokenService = tokenService;
         _map = map;
-        _userRepository = userRepository;
+        _refreshTokenRepository = refreshTokenRepository;
     }
 
     public void Register(RegisterRequestDto register)
@@ -59,5 +61,15 @@ public class AuthService : IAuthService
                 
         return new AuthResponseDto(token, refreshToken.Token);
     }
-    
+
+    public void Logout(LogoutRequestDto logout)
+    {
+        var token = _refreshTokenRepository.GetRefreshToken(logout.RefreshToken);
+        if (token is null)
+        {
+            throw new AppException(ErrorCode.NotAuthenticate);
+        }
+        
+        _refreshTokenRepository.DeleteRefreshToken(token);
+    }
 }

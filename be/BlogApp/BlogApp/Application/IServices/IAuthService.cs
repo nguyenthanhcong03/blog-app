@@ -7,4 +7,5 @@ public interface IAuthService
 {
     public void Register(RegisterRequestDto register);
     public AuthResponseDto Login(LoginRequestDto login);
+    public void Logout(LogoutRequestDto logout);
 }

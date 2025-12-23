@@ -11,11 +11,11 @@ namespace BlogApp.Infrastructure.ExternalServices;
 public class TokenService
 {
     private readonly IConfiguration _config;
-    private readonly IUserRepository _userRepository;
+    private readonly IRefreshTokenRepository _refreshTokenRepository;
 
-    public TokenService(IConfiguration config,  IUserRepository userRepository)
+    public TokenService(IConfiguration config,  IRefreshTokenRepository refreshTokenRepositoryRepository)
     {
-        _userRepository = userRepository;
+        _refreshTokenRepository = refreshTokenRepositoryRepository;
         _config = config;
     }
 
@@ -56,7 +56,8 @@ public class TokenService
         token.Expires = DateTime.UtcNow.AddDays(7);
         token.User = user;
 
-        _userRepository.AddRefreshToken(token);
+        _refreshTokenRepository.AddRefreshToken(token);
         return token;
     }
+    
 }

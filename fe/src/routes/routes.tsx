@@ -2,7 +2,6 @@ import NotFound from '@/components/auth/not-found/NotFound'
 import BlogCategoryManagementPage from '@/pages/admin/BlogCategoryManagement/BlogCategoryManagementPage'
 import { CreateCategoryPage, EditCategoryPage } from '@/pages/admin/BlogCategoryManagement/pages'
 import BlogManagementPage from '@/pages/admin/BlogManagement/BlogManagementPage'
-import { CreateBlogPage, EditBlogPage, ViewBlogPage } from '@/pages/admin/BlogManagement/pages'
 import CourseManagementPage from '@/pages/admin/CourseManagement/CourseManagementPage'
 import CreateCoursePage from '@/pages/admin/CourseManagement/pages/AddCoursePage/CreateCoursePage'
 import EditCoursePage from '@/pages/admin/CourseManagement/pages/EditCoursePage/EditCoursePage'
@@ -22,6 +21,9 @@ import { createBrowserRouter, type RouteObject } from 'react-router-dom'
 import ProtectedRoute from '@/components/auth/protected-route/ProtectedRoute'
 import AdminLayout from '@/components/layouts/AdminLayout'
 import MainLayout from '@/components/layouts/MainLayout'
+import CreateBlogPage from '@/pages/admin/BlogManagement/pages/CreateBlogPage'
+import EditBlogPage from '@/pages/admin/BlogManagement/pages/EditBlogPage'
+import ViewBlogPage from '@/pages/admin/BlogManagement/pages/ViewBlogPage'
 
 const publicRoutes: RouteObject[] = [
   { index: true, element: <HomePage /> },

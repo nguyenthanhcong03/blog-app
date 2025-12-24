@@ -6,5 +6,5 @@ namespace BlogApp.Application.IServices;
 public interface IUserService
 {
     UserProfileResponseDto UpdateProfile(UserProfileRequestDto userProfileRequestDto);
-    //Task<string?> UpdateAvatarAsync(IFormFile file);
+   // Task<string?> UpdateAvatarAsync(IFormFile file);
 }

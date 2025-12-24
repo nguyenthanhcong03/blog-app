@@ -30,9 +30,9 @@ public class UserController : ControllerBase
     }
     
     /*[HttpPatch("updateAvatar")]
-    public ActionResult<ApiResponse<UserProfileResponseDto>> UpdateAvatar([FromForm] FormFile avatar)
+    public ActionResult<ApiResponse<string>> UpdateAvatar([FromForm] FormFile avatar)
     {
-        var response = new ApiResponse<UserProfileResponseDto>
+        var response = new ApiResponse<string>
         {
             Status = 200,
             Message = "Register successful",

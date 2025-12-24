@@ -37,6 +37,6 @@ public class UserService : IUserService
             throw new AppException(ErrorCode.FileIsEmpty);
         }
         
-        var avatarUrl = 
+        var avatarUrl = _uploadService.
     }*/
 }

@@ -44,6 +44,7 @@ builder.Host.UseSerilog();
 // Add services to the container.
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<UploadService>();
 builder.Services.AddScoped<TokenService>();
 
 

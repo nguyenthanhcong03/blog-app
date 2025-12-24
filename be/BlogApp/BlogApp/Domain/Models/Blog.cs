@@ -9,7 +9,6 @@ public class Blog
     public int Id { get; set; }
 
     [Required(ErrorMessage = "Title is required")]
-    [MaxLength(200, ErrorMessage = "Title cannot exceed 200 characters")]
     public string Title { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Slug is required")]

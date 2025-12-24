@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 using AutoMapper;
-using BlogApp.Application.DTO.Request;
+using BlogApp.Application.DTO.Request.Authenticate;
 using BlogApp.Application.DTO.Response;
 using BlogApp.Application.IRepositories;
 using BlogApp.Application.IServices;
@@ -39,6 +39,7 @@ public class AuthService : IAuthService
         {
             throw new AppException(ErrorCode.ConfirmPasswordIsNotMatch);
         }
+        
         User newUser = _map.Map<User>(register);
 
         newUser.Role = UserRole.User;

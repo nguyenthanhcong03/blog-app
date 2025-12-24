@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Domain.Models;
 
+[Index(nameof(Name), IsUnique = true)]
 public class Category
 {
     [Key]

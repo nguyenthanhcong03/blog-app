@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BlogApp.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Domain.Models;
 
+[Index(nameof(UserName), IsUnique = true)]
 public class User
 {
     [Key]

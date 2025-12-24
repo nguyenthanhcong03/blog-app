@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BlogApp.Application.DTO.Request;
+namespace BlogApp.Application.DTO.Request.Authenticate;
 
 public record LoginRequestDto
 (

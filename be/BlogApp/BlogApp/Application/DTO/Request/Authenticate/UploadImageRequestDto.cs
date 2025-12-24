@@ -1,4 +1,4 @@
-﻿namespace BlogApp.Application.DTO.Request;
+﻿namespace BlogApp.Application.DTO.Request.Authenticate;
 
 public class UploadImageRequestDto
 {

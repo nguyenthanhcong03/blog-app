@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BlogApp.Domain.Enums;
 
-namespace BlogApp.Application.DTO.Request;
+namespace BlogApp.Application.DTO.Request.Authenticate;
 
 public record RegisterRequestDto
 (

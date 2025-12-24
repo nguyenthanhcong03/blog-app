@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using BlogApp.Application.DTO.Request;
+using BlogApp.Application.DTO.Request.Authenticate;
 using BlogApp.Application.DTO.Response;
 using BlogApp.Infrastructure.ExternalServices.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -19,13 +20,14 @@ public class BlogController : ControllerBase
     
     [HttpPost("/image/upload")]
     [Authorize]
-    public ActionResult<ApiResponse<object>> UploadImage([FromForm] UploadImageRequestDto image)
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult<ApiResponse<string>>> UploadImage([FromForm] UploadImageRequestDto image)
     {
-        var imageUrl = _uploadService.UploadImageAsync(image.Image);
+        var imageUrl = await _uploadService.UploadImageAsync(image.Image);
         var response = new ApiResponse<object>
         {
             Status = 200,
-            Message = "Register successful",
+            Message = "Upload image successful",
             Data = imageUrl
         };
         

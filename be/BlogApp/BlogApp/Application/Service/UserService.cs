@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
 using BlogApp.Application.DTO.Request;
+using BlogApp.Application.DTO.Request.Authenticate;
 using BlogApp.Application.DTO.Response;
 using BlogApp.Application.IRepositories;
 using BlogApp.Application.IServices;

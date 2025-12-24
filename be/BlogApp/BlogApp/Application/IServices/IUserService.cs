@@ -1,4 +1,4 @@
-﻿using BlogApp.Application.DTO.Request;
+﻿using BlogApp.Application.DTO.Request.Authenticate;
 using BlogApp.Application.DTO.Response;
 
 namespace BlogApp.Application.IServices;

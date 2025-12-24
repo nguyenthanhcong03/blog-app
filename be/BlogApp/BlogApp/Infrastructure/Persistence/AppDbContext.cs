@@ -17,7 +17,8 @@ public class AppDbContext: DbContext
     public DbSet<Comment> Comments => Set<Comment>();
     public DbSet<Like> Likes => Set<Like>();
     public DbSet<RefreshToken> RefreshTokens { get; set; }
-
+    public DbSet<Otp> Otps { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -97,6 +98,13 @@ public class AppDbContext: DbContext
         modelBuilder.Entity<RefreshToken>()
             .HasOne(o => o.User)
             .WithMany(o => o.RefreshTokens)
+            .HasForeignKey(o => o.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        // Otp
+        modelBuilder.Entity<Otp>()
+            .HasOne(o => o.User)
+            .WithMany(o => o.Otps)
             .HasForeignKey(o => o.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }

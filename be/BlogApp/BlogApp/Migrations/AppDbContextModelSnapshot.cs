@@ -173,6 +173,37 @@ namespace BlogApp.Migrations
                     b.ToTable("Likes");
                 });
 
+            modelBuilder.Entity("BlogApp.Domain.Models.Otp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ExpiredAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("FailedAttempts")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("OtpHash")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Otps");
+                });
+
             modelBuilder.Entity("BlogApp.Domain.Models.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
@@ -366,6 +397,17 @@ namespace BlogApp.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BlogApp.Domain.Models.Otp", b =>
+                {
+                    b.HasOne("BlogApp.Domain.Models.User", "User")
+                        .WithMany("Otps")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("BlogApp.Domain.Models.RefreshToken", b =>
                 {
                     b.HasOne("BlogApp.Domain.Models.User", "User")
@@ -410,6 +452,8 @@ namespace BlogApp.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Likes");
+
+                    b.Navigation("Otps");
 
                     b.Navigation("RefreshTokens");
                 });

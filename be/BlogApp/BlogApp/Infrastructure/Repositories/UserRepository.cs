@@ -2,6 +2,7 @@
 using BlogApp.Application.IRepositories;
 using BlogApp.Domain.Models;
 using BlogApp.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Infrastructure.Repositories;
 
@@ -26,10 +27,16 @@ public class UserRepository : IUserRepository
         return _db.Users.FirstOrDefault(e => e.Email == email);
     }
 
-    public void UpdateProfile(User user)
+    public void UpdateUser(User user)
     {
         _db.Users.Update(user);
         _db.SaveChanges();
     }
 
+    public async Task<User> GetUserByEmailAsync(string email)
+    {
+        return await _db.Users
+            .FirstOrDefaultAsync(x => x.Email == email);
+    }
+    
 }

@@ -6,6 +6,8 @@ using BlogApp.Application.Mapper;
 using BlogApp.Application.MiddleWare;
 using BlogApp.Application.Service;
 using BlogApp.Infrastructure.ExternalServices;
+using BlogApp.Infrastructure.ExternalServices.Impl;
+using BlogApp.Infrastructure.ExternalServices.Interface;
 using BlogApp.Infrastructure.Persistence;
 using BlogApp.Infrastructure.Repositories;
 using CloudinaryDotNet;
@@ -44,13 +46,14 @@ builder.Host.UseSerilog();
 // Add services to the container.
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<UploadService>();
-builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<IUploadService, UploadService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 // Repo
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<IOtpRepository, OtpRepository>();
 
 
 builder.Services.AddControllers()
@@ -115,6 +118,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.Configure<CloudinarySettings>(
     builder.Configuration.GetSection("Cloudinary"));
 
+// Mail
+builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("Email"));
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 builder.Services.AddSingleton(sp =>
 {
     var config = sp.GetRequiredService<IOptions<CloudinarySettings>>().Value;
@@ -171,7 +179,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionMiddleware>();
 

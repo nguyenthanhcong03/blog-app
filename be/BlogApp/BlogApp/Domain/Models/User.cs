@@ -38,4 +38,5 @@ public class User
     public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     public ICollection<Like> Likes { get; set; } = new List<Like>();
     public List<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+    public List<Otp> Otps { get; set; } = new List<Otp>();
 }

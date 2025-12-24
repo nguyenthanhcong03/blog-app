@@ -1,10 +1,11 @@
 ﻿using BlogApp.Application.MiddleWare;
+using BlogApp.Infrastructure.ExternalServices.Interface;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 
-namespace BlogApp.Infrastructure.ExternalServices;
+namespace BlogApp.Infrastructure.ExternalServices.Impl;
 
-public class UploadService
+public class UploadService :  IUploadService
 {
     private readonly Cloudinary _cloudinary;
     private static readonly string[] AllowedExtensions =
@@ -24,10 +25,10 @@ public class UploadService
         _cloudinary = cloudinary;
     }
     
-    public static void ValidateImage(IFormFile file)
+    public void ValidateImage(IFormFile file)
     {
         if (file == null || file.Length == 0)
-            throw new AppException(ErrorCode.ImageNotAllowed);
+            throw new AppException(ErrorCode.FileIsEmpty);
 
         // Size (ví dụ: 5MB)
         if (file.Length > 5 * 1024 * 1024)

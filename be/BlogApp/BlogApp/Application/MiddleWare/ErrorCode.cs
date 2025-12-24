@@ -14,6 +14,10 @@ public class ErrorCode
     public static readonly ErrorCode PasswordIsNotMatch = new ErrorCode(404, "Password is incorrect");
     public static readonly ErrorCode ConfirmPasswordIsNotMatch = new ErrorCode(404, "Confirm password is not match");
     public static readonly ErrorCode FileIsEmpty = new ErrorCode(404, "File is empty");
+    public static readonly ErrorCode OtpIsNotTrue = new ErrorCode(404, "Otp is not true");
+    public static readonly ErrorCode OtpIsInvalid = new ErrorCode(404, "Otp is used or expired, you must get other");
+    public static readonly ErrorCode OldPasswordIsNotTrue = new ErrorCode(404, "Old password is not true");
+    
     
     public int Code { get; }
     public string Message { get; }

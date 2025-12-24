@@ -34,7 +34,7 @@ public class AuthController : ControllerBase
         var response = new ApiResponse<AuthResponseDto>
         {
             Status = 200,
-            Message = "Register successful",
+            Message = "Login successful",
             Data = _authService.Login(login)
         };
         
@@ -48,9 +48,49 @@ public class AuthController : ControllerBase
         var response = new ApiResponse<object>
         {
             Status = 200,
-            Message = "Register successful",
+            Message = "Logout successful",
         };
         
         return Ok(response);
     }
+
+    [HttpPost("forgot-password")]
+    public async Task<ActionResult<ApiResponse<object>>> ForgotPassword([FromQuery] string email)
+    {
+        await _authService.SendOtp(email);
+        var response = new ApiResponse<object>
+        {
+            Status = 200,
+            Message = "Send Otp successful",
+        };
+        
+        return Ok(response);
+    }
+    
+    [HttpPatch("check-otp")]
+    public ActionResult<ApiResponse<object>> CheckOtp([FromBody] VerifyOtpRequestDto verifyOtp)
+    {
+         _authService.CheckOtp(verifyOtp);
+        var response = new ApiResponse<object>
+        {
+            Status = 200,
+            Message = "Otp is valid",
+        };
+        
+        return Ok(response);
+    }
+    
+    [HttpPatch("update-password")]
+    public ActionResult<ApiResponse<object>> UpdatePassword([FromBody] UpdatePasswordRequestDto dto, [FromQuery] string email)
+    {
+        _authService.UpdatePassword(dto, email);
+        var response = new ApiResponse<object>
+        {
+            Status = 200,
+            Message = "Update password successful",
+        };
+        
+        return Ok(response);
+    }
+
 }

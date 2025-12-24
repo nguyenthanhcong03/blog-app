@@ -5,6 +5,6 @@ namespace BlogApp.Application.IRepositories;
 public interface IUserRepository
 {
     void Register(User register);
-    public User GetUserByEmail(string email);
-    public void UpdateProfile(User user);
+    User GetUserByEmail(string email);
+    void UpdateUser(User user);
 }   

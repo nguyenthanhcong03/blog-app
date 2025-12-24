@@ -4,11 +4,12 @@ using System.Security.Cryptography;
 using System.Text;
 using BlogApp.Application.IRepositories;
 using BlogApp.Domain.Models;
+using BlogApp.Infrastructure.ExternalServices.Interface;
 using Microsoft.IdentityModel.Tokens;
 
-namespace BlogApp.Infrastructure.ExternalServices;
+namespace BlogApp.Infrastructure.ExternalServices.Impl;
 
-public class TokenService
+public class TokenService : ITokenService
 {
     private readonly IConfiguration _config;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
@@ -41,7 +42,7 @@ public class TokenService
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    string GenerateRefreshTokenUri(int size = 64)
+    public string GenerateRefreshTokenUri(int size = 64)
     {
         var randomNumber = new byte[size];
         using var rng = RandomNumberGenerator.Create(); 

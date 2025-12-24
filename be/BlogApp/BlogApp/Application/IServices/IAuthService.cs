@@ -5,7 +5,10 @@ namespace BlogApp.Application.IServices;
 
 public interface IAuthService
 {
-    public void Register(RegisterRequestDto register);
-    public AuthResponseDto Login(LoginRequestDto login);
-    public void Logout(LogoutRequestDto logout);
+    void Register(RegisterRequestDto register);
+    AuthResponseDto Login(LoginRequestDto login);
+   void Logout(LogoutRequestDto logout);
+   Task SendOtp(string email);
+   void CheckOtp(VerifyOtpRequestDto verifyOtpRequestDto);
+   void UpdatePassword(UpdatePasswordRequestDto updatePasswordRequestDto, string email);
 }

@@ -32,11 +32,8 @@ public class UserService : IUserService
 
     /*public async Task<string?> UpdateAvatarAsync(IFormFile file)
     {
-        if (file is null || file.Length == 0)
-        {
-            throw new AppException(ErrorCode.FileIsEmpty);
-        }
+        var avatarUrl = await _uploadService.UploadImageAsync(file);
         
-        var avatarUrl = _uploadService.
+        return avatarUrl;
     }*/
 }

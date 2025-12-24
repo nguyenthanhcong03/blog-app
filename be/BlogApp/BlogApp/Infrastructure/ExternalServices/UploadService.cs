@@ -46,8 +46,7 @@ public class UploadService
 
     public async Task<string?> UploadImageAsync(IFormFile file)
     {
-        if (file.Length == 0)
-            return null;
+        ValidateImage(file);
 
         await using var stream = file.OpenReadStream();
 

@@ -1,0 +1,35 @@
+﻿services:
+  mysql:
+    image: mysql:8.0
+    container_name: blogapp_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_DATABASE: "blog_app"
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  blogapp:
+    build:
+      context: ./BlogApp
+      dockerfile: Dockerfile
+    container_name: blogapp_api
+    depends_on:
+      - mysql
+    environment:
+      # Connection string tới MySQL container
+      ConnectionStrings__DefaultConnection: "Server=mysql;Port=3306;Database=blog_app;User=root;Password=123456;"
+      # JWT key
+      Jwt__Key: "adadhajhdhasjdhdasdsadasdasdasdasdasdasdasdasajshdhwuadasdasdasdasdadasdasdqhdoahshd"
+      # Kestrel listen cả HTTP + HTTPS
+      ASPNETCORE_URLS: "http://+:5230"
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "5230:5230"
+      # - "7184:7184"
+    restart: always
+
+volumes:
+  mysql_data:

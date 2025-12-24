@@ -6,4 +6,5 @@ public interface IUserRepository
 {
     void Register(User register);
     public User GetUserByEmail(string email);
+    public void UpdateProfile(User user);
 }   

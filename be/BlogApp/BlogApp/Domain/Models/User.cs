@@ -7,6 +7,10 @@ public class User
 {
     [Key]
     public int Id { get; set; }
+    
+    [Required(ErrorMessage = "UserName must not be empty")]
+    [MaxLength(200)]
+    public string UserName { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Email must not be empty")]
     [EmailAddress(ErrorMessage = "Email is invalid format")]

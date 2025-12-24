@@ -12,6 +12,10 @@ public record RegisterRequestDto
     [MaxLength(200, ErrorMessage = "Last name cannot exceed 200 characters")]
     string LastName,
     
+    [Required(ErrorMessage = "User name must not be empty")]
+    [MaxLength(200, ErrorMessage = "User name cannot exceed 200 characters")]
+    string UserName,
+    
     [Required(ErrorMessage = "Email must not be empty")]
     [EmailAddress(ErrorMessage = "Email has invalid format")]
     string Email,

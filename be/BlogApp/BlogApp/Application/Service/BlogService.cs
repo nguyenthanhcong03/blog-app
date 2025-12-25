@@ -1,10 +1,15 @@
-﻿using BlogApp.Application.DTO.Request.Blog;
+﻿using AutoMapper;
+using BlogApp.Application.DTO.Page;
+using BlogApp.Application.DTO.Request.Blog;
+using BlogApp.Application.DTO.Response;
 using BlogApp.Application.IRepositories;
 using BlogApp.Application.IServices;
 using BlogApp.Application.MiddleWare;
+using BlogApp.Domain.Enums;
 using BlogApp.Domain.Models;
 using BlogApp.Infrastructure.ExternalServices.Interface;
 using BlogApp.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Slugify;
 
 namespace BlogApp.Application.Service;
@@ -16,10 +21,12 @@ public class BlogService : IBlogService
     private readonly ITagRepository _tagRepository;
     private readonly IUserRepository _userRepository;
     private readonly IUploadService _uploadService;
+    private readonly IMapper _mapper;
 
     public BlogService(IBlogRepository blogRepository,  ICategoryRepository categoryRepository,  
-        ITagRepository tagRepository, IUserRepository userRepository, IUploadService uploadService)
+        ITagRepository tagRepository, IUserRepository userRepository, IUploadService uploadService,  IMapper mapper)
     {
+        _mapper = mapper;
         _uploadService = uploadService;
         _userRepository = userRepository;
         _tagRepository = tagRepository;
@@ -46,8 +53,9 @@ public class BlogService : IBlogService
             Title = request.Title,
             Content = request.Content,
             Slug = slugHelper.GenerateSlug(request.Title),
-            PublishedAt = null,
+            PublishedAt = request.Status == BlogStatus.Published ?  DateTime.Now : null,
             AuthorId = user.Id,
+            Status =  request.Status,
             Avatar = request.Avatar != null
                 ? await _uploadService.UploadImageAsync(request.Avatar)
                 : string.Empty,
@@ -110,5 +118,54 @@ public class BlogService : IBlogService
         }
         
         await _blogRepository.AddAsync(blog);
+    }
+
+    public PagedResult<BlogResponseDto> GetPageBlog(BlogQueryDto dto)
+    {
+        var blogs = _blogRepository.GetPageBlog()
+            .Where(b => b.Status == BlogStatus.Published)
+            .OrderByDescending(b => b.PublishedAt); 
+        
+        var total = blogs.Count();
+        
+        var items = blogs.Skip((dto.Page - 1) * dto.PageSize)
+            .Take(dto.PageSize)
+            .ToList();
+        
+        return new PagedResult<BlogResponseDto>
+        {
+            Items = _mapper.Map<List<BlogResponseDto>>(items),
+            TotalItems = total,
+            Page = dto.Page,
+            PageSize = dto.PageSize
+        };
+    }
+
+    public PagedResult<BlogResponseDto> GetMyBlog(string email, BlogQueryDto dto)
+
+    {
+        var blogs = _blogRepository.GetPageBlog()
+            .Where(b => b.Status == BlogStatus.Published && b.Author.Email == email)
+            .OrderByDescending(b => b.PublishedAt); 
+        
+        var total = blogs.Count();
+        
+        var items = blogs.Skip((dto.Page - 1) * dto.PageSize)
+            .Take(dto.PageSize)
+            .ToList();
+        
+        return new PagedResult<BlogResponseDto>
+        {
+            Items = _mapper.Map<List<BlogResponseDto>>(items),
+            TotalItems = total,
+            Page = dto.Page,
+            PageSize = dto.PageSize
+        };
+    }
+
+    public async Task PublishBlog(int id)
+    {
+        await _blogRepository.PublishBlog(id);
+        
     }
 }

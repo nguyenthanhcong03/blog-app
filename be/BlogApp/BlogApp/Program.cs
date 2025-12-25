@@ -5,6 +5,8 @@ using BlogApp.Application.IServices;
 using BlogApp.Application.Mapper;
 using BlogApp.Application.MiddleWare;
 using BlogApp.Application.Service;
+using BlogApp.Domain.Enums;
+using BlogApp.Domain.Models;
 using BlogApp.Infrastructure.ExternalServices;
 using BlogApp.Infrastructure.ExternalServices.Impl;
 using BlogApp.Infrastructure.ExternalServices.Interface;
@@ -12,6 +14,7 @@ using BlogApp.Infrastructure.Persistence;
 using BlogApp.Infrastructure.Repositories;
 using CloudinaryDotNet;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -50,6 +53,7 @@ builder.Services.AddScoped<IUploadService, UploadService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 
 // Repo
@@ -174,8 +178,32 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher<User>>();
+
     db.Database.Migrate();
+
+    // SEED ADMIN
+    if (!db.Users.Any(u => u.Role == UserRole.Admin))
+    {
+        var admin = new User
+        {
+            UserName = "admin",
+            Email = "tqdinhtt@gmail.com",
+            FirstName = "System",
+            LastName = "Admin",
+            Role = UserRole.Admin,
+            IsActive = true,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        admin.Password = passwordHasher.HashPassword(admin, "123456");
+
+        db.Users.Add(admin);
+        db.SaveChanges();
+    }
 }
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

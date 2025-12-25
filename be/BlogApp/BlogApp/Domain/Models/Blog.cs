@@ -19,7 +19,7 @@ public class Blog
     public string Content { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Status is required")]
-    public BlogStatus Status { get; set; } = BlogStatus.Draft;
+    public BlogStatus Status { get; set; }
 
     [Required(ErrorMessage = "Author is required")]
     public int AuthorId { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BlogApp.Domain.Enums;
 
 namespace BlogApp.Application.DTO.Request.Blog;
 
@@ -10,7 +11,10 @@ public class CreateBlogRequestDto
 
     [Required(ErrorMessage = "Content is required")]
     public string Content { get; set; } = string.Empty;
-
+    
+    [Required]
+    public BlogStatus Status { get; set; }
+    
     public IFormFile? Avatar { get; set; }
 
     public List<int>? Categories { get; set; }

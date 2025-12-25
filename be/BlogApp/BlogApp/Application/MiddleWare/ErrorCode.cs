@@ -18,7 +18,8 @@ public class ErrorCode
     public static readonly ErrorCode OtpIsInvalid = new ErrorCode(404, "Otp is used or expired, you must get other");
     public static readonly ErrorCode OldPasswordIsNotTrue = new ErrorCode(404, "Old password is not true");
     public static readonly ErrorCode CategoryNotExist = new ErrorCode(404, "Category is  not exist");
-    
+    public static readonly ErrorCode BlogIsNotExist = new ErrorCode(404, "Blog is not exist");
+
     
     public int Code { get; }
     public string Message { get; }

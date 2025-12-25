@@ -35,7 +35,7 @@ public class AuthService : IAuthService
 
     public void Register(RegisterRequestDto register)
     {
-        if (register.ConfirmPassword != register.Password)
+        if (register.ConfirmPassword != register.Password)  
         {
             throw new AppException(ErrorCode.ConfirmPasswordIsNotMatch);
         }

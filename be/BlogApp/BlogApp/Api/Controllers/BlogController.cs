@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using BlogApp.Application.DTO.Page;
 using BlogApp.Application.DTO.Request;
 using BlogApp.Application.DTO.Request.Authenticate;
 using BlogApp.Application.DTO.Request.Blog;
@@ -38,7 +39,7 @@ public class BlogController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("/create/blog")]
+    [HttpPost("/create")]
     [Authorize]
     [Consumes("multipart/form-data")]
     public async Task<ActionResult<ApiResponse<string>>> CreateBlog([FromForm] CreateBlogRequestDto blog)
@@ -54,4 +55,46 @@ public class BlogController : ControllerBase
         return Ok(response);
     }
     
+    [HttpGet("/get")]
+    public ActionResult<ApiResponse<PagedResult<BlogResponseDto>>> GetPageProduct([FromQuery] BlogQueryDto dto)
+    {
+        var response = new ApiResponse<PagedResult<BlogResponseDto>>
+        {
+            Status = 200,
+            Message = "Success",
+            Data = _blogService.GetPageBlog(dto)
+        };
+        
+        return  Ok(response);
+    }
+
+    [HttpPatch("publish")]
+    [Authorize]
+    public async Task<ActionResult<ApiResponse<object>>> PublishBlog([FromQuery] int id)
+    {
+        await _blogService.PublishBlog(id);
+        
+        var response = new ApiResponse<object>
+        {
+            Status = 200,
+            Message = "Publish blog successful",
+        };
+        
+        return Ok(response);
+    }
+
+    [HttpGet("get/my")]
+    [Authorize]
+    public ActionResult<ApiResponse<PagedResult<BlogResponseDto>>> GetMyBlog([FromQuery] BlogQueryDto dto)
+    {
+        var email =  User.FindFirstValue(ClaimTypes.Email);
+        var response = new ApiResponse<PagedResult<BlogResponseDto>>
+        {
+            Status = 200,
+            Message = "Publish blog successful",
+            Data = _blogService.GetMyBlog(email, dto)
+        };
+        
+        return Ok(response);
+    }
 }

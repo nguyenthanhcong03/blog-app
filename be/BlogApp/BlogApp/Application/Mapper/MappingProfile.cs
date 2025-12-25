@@ -19,5 +19,20 @@ public class MappingProfile : AutoMapper.Profile
         // Category
         CreateMap<CreateCategoryRequestDto, Category>();
         CreateMap<Category, CategoryResponseDto>();
+        
+        // Tag
+        CreateMap<Tag, TagReponseDto>();
+        
+        // Blog
+        CreateMap<Blog, BlogResponseDto>()
+            .ForCtorParam("Author",
+                opt => opt.MapFrom(src => src.Author))
+            .ForCtorParam("Categories",
+                opt => opt.MapFrom(src =>
+                    src.BlogCategories.Select(bc => bc.Category).ToList()))
+            .ForCtorParam("Tags",
+                opt => opt.MapFrom(src =>
+                    src.BlogTags.Select(bt => bt.Tag).ToList()));
+
     }
 }

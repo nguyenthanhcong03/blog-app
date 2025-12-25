@@ -40,7 +40,8 @@ public class BlogController : ControllerBase
 
     [HttpPost("/create/blog")]
     [Authorize]
-    public async Task<ActionResult<ApiResponse<string>>> CreateBlog([FromBody] CreateBlogRequestDto blog)
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult<ApiResponse<string>>> CreateBlog([FromForm] CreateBlogRequestDto blog)
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
         await _blogService.CreateAsync(blog, email);
@@ -52,4 +53,5 @@ public class BlogController : ControllerBase
         
         return Ok(response);
     }
+    
 }

@@ -3,6 +3,7 @@ using BlogApp.Application.IRepositories;
 using BlogApp.Application.IServices;
 using BlogApp.Application.MiddleWare;
 using BlogApp.Domain.Models;
+using BlogApp.Infrastructure.ExternalServices.Interface;
 using BlogApp.Infrastructure.Repositories;
 using Slugify;
 
@@ -14,10 +15,12 @@ public class BlogService : IBlogService
     private readonly ICategoryRepository _categoryRepository;
     private readonly ITagRepository _tagRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IUploadService _uploadService;
 
     public BlogService(IBlogRepository blogRepository,  ICategoryRepository categoryRepository,  
-        ITagRepository tagRepository, IUserRepository userRepository)
+        ITagRepository tagRepository, IUserRepository userRepository, IUploadService uploadService)
     {
+        _uploadService = uploadService;
         _userRepository = userRepository;
         _tagRepository = tagRepository;
         _categoryRepository = categoryRepository;
@@ -31,6 +34,10 @@ public class BlogService : IBlogService
     
     public async Task CreateAsync(CreateBlogRequestDto request, string email)
     {
+                    
+        // thu vien slug
+        var slugHelper = new SlugHelper();
+        
         User user = _userRepository.GetUserByEmail(email);
         if (user == null) throw new AppException(ErrorCode.UserNotFound);
         
@@ -38,10 +45,13 @@ public class BlogService : IBlogService
         {
             Title = request.Title,
             Content = request.Content,
-            Slug = request.Slug,
-            PublishedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow,
-            AuthorId = user.Id
+            Slug = slugHelper.GenerateSlug(request.Title),
+            PublishedAt = null,
+            AuthorId = user.Id,
+            Avatar = request.Avatar != null
+                ? await _uploadService.UploadImageAsync(request.Avatar)
+                : string.Empty,
+
         };
 
         if (request.Categories?.Any() == true )
@@ -75,9 +85,6 @@ public class BlogService : IBlogService
             var existingTagNames = existingTags
                 .Select(t => t.Name.ToLower())
                 .ToHashSet();
-            
-            // thu vien slug
-            var slugHelper = new SlugHelper();
 
             var newTags = normalizedTagNames
                 .Where(name => !existingTagNames.Contains(name))

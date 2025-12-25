@@ -9,10 +9,10 @@ public class Blog
     public int Id { get; set; }
 
     [Required(ErrorMessage = "Title is required")]
+    [MaxLength(200, ErrorMessage = "Slug cannot exceed 200 characters")]
     public string Title { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Slug is required")]
-    [MaxLength(200, ErrorMessage = "Slug cannot exceed 100 characters")]
     public string Slug { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Content is required")]
@@ -24,9 +24,10 @@ public class Blog
     [Required(ErrorMessage = "Author is required")]
     public int AuthorId { get; set; }
     public User Author { get; set; } = null!;
+    
+    public string Avatar { get; set; } 
 
-    [Required(ErrorMessage = "Published time is required")]
-    public DateTime? PublishedAt { get; set; }
+    public DateTime? PublishedAt { get; set; } = null!;
     
     [Required(ErrorMessage = "Created time is required")]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

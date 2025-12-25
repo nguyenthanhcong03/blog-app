@@ -18,4 +18,14 @@ public class CategoryRepository : ICategoryRepository
         _db.Categories.Add(category);
         _db.SaveChanges();
     }
+
+    public List<Category> GetCategories()
+    {
+        return _db.Categories.ToList();
+    }
+
+    public Category GetCategoryById(int categoryId)
+    {
+        return _db.Categories.FirstOrDefault(c => c.Id == categoryId);
+    }
 }

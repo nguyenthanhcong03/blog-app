@@ -18,5 +18,6 @@ public class MappingProfile : AutoMapper.Profile
         
         // Category
         CreateMap<CreateCategoryRequestDto, Category>();
+        CreateMap<Category, CategoryResponseDto>();
     }
 }

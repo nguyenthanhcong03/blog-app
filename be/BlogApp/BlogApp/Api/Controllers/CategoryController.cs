@@ -29,4 +29,17 @@ public class CategoryController : ControllerBase
         
         return Ok(response);
     }
+    
+    [HttpGet]
+    public ActionResult<ApiResponse<List<CategoryResponseDto>>>  GetCategories()
+    {
+        var response = new ApiResponse<object>
+        {
+            Status = 200,
+            Message = "Create category successful",
+            Data = _categoryService.GetCategories()
+        };
+        
+        return Ok(response);
+    }
 }

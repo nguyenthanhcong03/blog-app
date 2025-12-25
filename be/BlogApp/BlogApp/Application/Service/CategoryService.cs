@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlogApp.Application.DTO.Request.Category;
+using BlogApp.Application.DTO.Response;
 using BlogApp.Application.IRepositories;
 using BlogApp.Application.IServices;
 using BlogApp.Domain.Models;
@@ -19,6 +20,15 @@ public class CategoryService : ICategoryService
     
     public void AddCategory(CreateCategoryRequestDto category)
     {
-        _categoryRepository.AddCategory(_mapper.Map<Category>(category));
+        var categoryToAdd = _mapper.Map<Category>(category);
+        categoryToAdd.Name = category.Name.Trim().ToUpper();        
+        _categoryRepository.AddCategory(categoryToAdd);
     }
+
+    public List<CategoryResponseDto> GetCategories()
+    {
+        return _mapper.Map<List<CategoryResponseDto>>(_categoryRepository.GetCategories());
+    }
+
+
 }

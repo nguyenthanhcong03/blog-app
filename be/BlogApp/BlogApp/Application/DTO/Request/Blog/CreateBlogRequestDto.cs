@@ -16,6 +16,6 @@ public record CreateBlogRequestDto
     string Content,
 
     // Category và Tag có thể để trống lúc tạo Draft
-    List<int> CategoryIds,
-    List<int> TagIds
+    List<int>? Categories,
+    List<string>? TagNames
 );
